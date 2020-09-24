@@ -24,4 +24,16 @@ public class ItemStack {
     public void setItem(Item item) {
         this.item = item;
     }
+
+    @Override
+    public String toString() {
+        return "ItemStack{" +
+                "amount=" + amount +
+                ", item=" + item +
+                '}';
+    }
+
+    public void decreaseAmountBy(int amount) {
+        this.amount -= amount;
+    }
 }
