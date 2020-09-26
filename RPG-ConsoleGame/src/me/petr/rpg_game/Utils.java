@@ -64,38 +64,6 @@ public class Utils {
         }
     }
 
-    // Choose what item to buy from shop
-    // FIXME: 9/24/2020 items duplicating
-    public static void shop(Scanner scanner) {
-        while (true) {
-            System.out.print("What item to buy > ");
-            String input = scanner.nextLine();
-            if (input.equalsIgnoreCase("exit")) return;
-            try {
-                int item = Integer.parseInt(input);
-                if (item <= game.getShop().size() - 1 && item >= 0) {
-                    ItemStack itemStack = (ItemStack) game.getShop().getStock().values().toArray()[item];
-                    int price = (int) game.getShop().getStock().keySet().toArray()[item];
-                    if (game.getCoins() >= price) {
-                        game.setCoins(game.getCoins() - price);
-                        addToInventory(itemStack);
-                        System.out.println("You purchased {amount}x {item} for {coins} coins. You now have {currentCoins} coins."
-                                .replace("{amount}", String.valueOf(itemStack.getAmount()))
-                                .replace("{item}", itemStack.getItem().getName())
-                                .replace("{coins}", String.valueOf(price))
-                                .replace("{currentCoins}", String.valueOf(game.getCoins())));
-                    } else {
-                        System.out.println("You do not posses the required amount of coins.");
-                    }
-                } else {
-                    System.out.println("Invalid item.");
-                }
-            } catch (NumberFormatException e) {
-                System.out.println("Use numbers to specify what item to consume.");
-            }
-        }
-    }
-
     // Display your inventory
     public static void inventory() {
         System.out.println("+--------------------------->>");
@@ -309,11 +277,12 @@ public class Utils {
     public static void addToInventory(ItemStack itemStack) {
         for (ItemStack stack : game.getInventory()) {
             if (stack.getItem().getId().equals(itemStack.getItem().getId())) {
-                stack.setAmount(stack.getAmount() + itemStack.getAmount());
+                stack.increaseAmount(itemStack.getAmount());
                 return;
             }
         }
-        game.getInventory().add(itemStack);
+        // Had to create a new object instead of just passing in itemStack idk why it duplicated if i did so
+        game.getInventory().add(new ItemStack(itemStack.getAmount(), itemStack.getItem()));
     }
 
     public static void deleteFromInventory(ItemStack itemStack, int amount) {
@@ -338,10 +307,6 @@ public class Utils {
             if (enemy.getValue()) kills++;
         }
         return kills;
-    }
-
-    public static boolean chance(double percentage) {
-        return Math.random() <= percentage;
     }
 
     public static Spell getRandomSpell() {

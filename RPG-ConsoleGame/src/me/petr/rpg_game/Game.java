@@ -23,11 +23,11 @@ public class Game {
     private boolean gameInProgress = false;
     private Shop shop;
 
-    public Game(Shop shop, LinkedHashMap<Entity, Boolean> enemies, List<ItemStack> inventory) {
+    public Game(LinkedHashMap<Entity, Boolean> enemies, List<ItemStack> inventory) {
         instance = this;
         this.scanner = new Scanner(System.in);
 
-        this.health = 50;
+        this.health = 100;
         this.healthCap = Reference.HEALTH_CAP;
         this.mana = 100;
         this.manaCap = Reference.MANA_CAP;
@@ -37,8 +37,6 @@ public class Game {
         this.spells = new Spell[5];
         spells[0] = Utils.getRandomSpell();
         this.enemies = enemies;
-
-        this.shop = shop;
     }
 
     public void start() {
@@ -72,8 +70,7 @@ public class Game {
                 Utils.fight(scanner);
                 break;
             case "shop":
-                shop.show(coins);
-                Utils.shop(scanner);
+                shop.open(scanner);
                 break;
             case "man":
             case "manual":
@@ -90,10 +87,6 @@ public class Game {
                 System.out.println("Unknown command.");
                 break;
         }
-    }
-
-    public Scanner getScanner() {
-        return scanner;
     }
 
     public static Game getInstance() {
@@ -184,5 +177,9 @@ public class Game {
 
     public void setGameInProgress(boolean gameInProgress) {
         this.gameInProgress = gameInProgress;
+    }
+
+    public void setShop(Shop shop) {
+        this.shop = shop;
     }
 }

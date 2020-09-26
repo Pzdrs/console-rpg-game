@@ -10,7 +10,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Reference {
-    public static final int START_COINS = 750;
+    public static final int START_COINS = 1000;
     public static final int HEALTH_CAP = 500;
     public static final int MANA_CAP = 200;
     public static final int MANA_COST_TO_FLEE = 25;

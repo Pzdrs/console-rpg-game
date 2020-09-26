@@ -13,16 +13,12 @@ public class ItemStack {
         return amount;
     }
 
-    public void setAmount(int amount) {
-        this.amount = amount;
-    }
-
     public Item getItem() {
         return item;
     }
 
-    public void setItem(Item item) {
-        this.item = item;
+    public void increaseAmount(int amount) {
+        this.amount += amount;
     }
 
     @Override
